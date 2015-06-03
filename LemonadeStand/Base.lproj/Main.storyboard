@@ -386,6 +386,9 @@
                                 <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="0.0" y="582" width="375" height="30"/>
                                 </variation>
+                                <connections>
+                                    <action selector="startDayButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PGb-hv-SRe"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Step 3: Start Selling Your Brew" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3VE-LM-F97">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>

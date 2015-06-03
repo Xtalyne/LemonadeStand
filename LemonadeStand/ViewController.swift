@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var weatherImage: UIImageView!
     
+    var currentDay = 1
+    
     // Vars for Inventory
     @IBOutlet weak var moneyLabel: UILabel!
     @IBOutlet weak var lemonsInInventoryLabel: UILabel!
@@ -36,6 +38,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var mixIceLabel: UILabel!
     var lemonsToBeMixed = 0
     var iceToBeMixed = 0
+    
+    var kMaxNumberOfCustomers = 10
+    let kAcidic = 1.0
+    let kEqual = 0.0
+    let kDiluted = -1.0
     
     
     
@@ -199,7 +206,89 @@ class ViewController: UIViewController {
     }
     
     
+    // Start Day Button!!
     
+    @IBAction func startDayButtonPressed(sender: AnyObject) {
+        
+
+        startDay()
+
+    }
+    
+    
+    func resetCounters() {
+        lemonsToBeBought = 0
+        buyLemonsLabel.text = "0"
+        iceToBeBought = 0
+        buyIceLabel.text = "0"
+        lemonsToBeMixed = 0
+        mixLemonsLabel.text = "0"
+        iceToBeMixed = 0
+        mixIceLabel.text = "0"
+    }
+
+    
+    func startDay() {
+        
+
+        var lemonadeTaste:Double
+        var customers:[Customer] = []
+        var numberOfCustomers = 0
+        
+        if lemonsToBeMixed == 0 || iceToBeMixed == 0 {
+            println("Mix some lemonade!")
+        } else {
+        
+            if lemonsToBeMixed > iceToBeMixed {
+                lemonadeTaste = kAcidic
+                println("Acidic lemonade for sale today!")
+            } else if lemonsToBeMixed == iceToBeMixed {
+                lemonadeTaste = kEqual
+                println("'Equal' lemonade for sale today!")
+            } else {
+                lemonadeTaste = kDiluted
+                println("Diluted lemonade for sale today!")
+            }
+        
+            // create random number of customers (1-10)
+            numberOfCustomers = 1 + Int(arc4random_uniform(UInt32(10)))
+        
+            // sell to each customer
+            for var index = 0; index < numberOfCustomers; index++ {
+                var nextCustomer = Customer()
+                nextCustomer.lemonadeTastePreference = nextCustomer.getLemonadeTastePreference()
+                if nextCustomer.lemonadeTastePreference == lemonadeTaste {
+                    println("\(nextCustomer.lemonadeTastePreferenceValue) | Paid!")
+                    money += 1
+                } else {
+                    println("\(nextCustomer.lemonadeTastePreferenceValue) | No match, No Revenue.")
+                }
+            }
+        
+            moneyLabel.text = "$\(money)"
+            resetCounters()            
+            if isGameOver() {
+                println("Game Over")
+            } else {
+                updateDay()
+            }
+            
+        }
+    }
+    
+    func isGameOver() -> Bool {
+        if money == 0 && lemonsInInventory == 0 && iceInInventory == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func updateDay() {
+        currentDay += 1
+        titleLabel.text = "Lemonade Stand: Day \(currentDay)"
+        
+    }
     
 
 }
